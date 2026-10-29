@@ -1,0 +1,14 @@
+replicaCount: 2
+
+image:
+  repository: nginxdemos/hello
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+service:
+  type: NodePort
+  port: 8080
+  targetPort: 80
+  nodePort: 30080
+
+namespace: defaultі

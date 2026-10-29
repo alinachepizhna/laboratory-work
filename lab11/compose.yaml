@@ -1,0 +1,23 @@
+services:
+  # Основний веб-застосунок
+  app:
+    build: .
+    container_name: python-web-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - redis
+    networks:
+      - app-network
+
+  # Зовнішнє сховище даних
+  redis:
+    image: redis:alpine
+    container_name: redis-db
+    restart: always
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

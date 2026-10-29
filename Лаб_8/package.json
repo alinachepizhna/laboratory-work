@@ -1,0 +1,20 @@
+{
+  "name": "lab8",
+  "version": "1.0.0",
+  "description": "Лабораторна робота №8 - Pattern Future (Promise)",
+  "main": "dist/Future.js",
+  "scripts": {
+    "test": "jest --verbose"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "@types/node": "^20.19.43",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2",
+    "typescript": "^5.3.3"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node"
+  }
+}

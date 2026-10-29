@@ -1,0 +1,41 @@
+services:
+  # Зовнішнє сховище даних (Redis)
+  redis:
+    image: redis:alpine
+    container_name: redis-db
+    restart: always
+    networks:
+      - app-network
+    # Перевірка стану Redis за допомогою внутрішньої команди redis-cli ping
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s      # Інтервал між перевірками
+      timeout: 3s       # Максимальний час очікування відповіді
+      retries: 5        # Кількість спроб до визначення статусу unhealthy
+      start_period: 5s  # Затримка перед першою перевіркою
+
+  # Основний веб-застосунок
+  app:
+    build: .
+    container_name: python-web-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      redis:
+        condition: service_healthy # Очікуємо саме статусу HEALTHY від redis
+    networks:
+      - app-network
+    # Перевірка стану веб-застосунку за допомогою Python urllib
+    healthcheck:
+      test: ["CMD-SHELL", "python -c 'import urllib.request; urllib.request.urlopen(\"http://localhost:8080/\")' || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+
+networks:
+  app-network:
+    driver: bridge
+
+
+    
